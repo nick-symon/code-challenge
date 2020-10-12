@@ -40,6 +40,8 @@
 {% block extra_js %}
   <script type="text/javascript">
 
+    const urlBase = 'http://localhost:8000/'; // Change url base used in fetch requets when deploying to production
+
     function createRow(arr) {
       return `<tr><td>${arr[1]}</td><td>${arr[0]}</td></tr>`;
     }
@@ -48,7 +50,6 @@
       const addressDiv = document.getElementById('address-results');
       addressDiv.style.display = 'block';
       const address_components = Object.entries(data.address_components);
-      addressDiv.innerHTML = '';
       addressDiv.innerHTML = `
       <h4>Parsing results</h4>
         <p>Address type: ${data.address_type} <strong><span id="parse-type"></span></strong></p>
@@ -85,7 +86,7 @@
       const addressForm = document.getElementById('address');
       const inputString = addressForm.value;
       addressForm.value = '';
-      const url = new URL('http://localhost:8000/api/parse/');
+      const url = new URL('api/parse/', urlBase);
       const params = {address: inputString};
       url.search = new URLSearchParams(params).toString();
       if (inputString) {
